@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 
 from scraper.browser_driver import Browser
 from scraper.brickset.set_scraper import SetScraper
+from scraper.scraper_constants import BrickSet
 
 
 def get_href_link(page_url: str) -> List[str]:
@@ -34,7 +35,7 @@ def scrape_one_page(page_url: str) -> List[Dict[str, Any]]:
     set_info_from_one_page = []
     for href in href_list:
         set_url = start_url + href
-        set_scraper = SetScraper(set_url)
+        set_scraper = SetScraper(set_url, sleep_time=BrickSet.sleep_time)
         set_info = set_scraper.set_data
         set_info_from_one_page.append(set_info)
 
