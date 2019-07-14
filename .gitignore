@@ -71,6 +71,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+sandbox.ipynb
 
 # pyenv
 .python-version
@@ -102,3 +103,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# idea
+.idea
+.idea/
