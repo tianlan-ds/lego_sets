@@ -21,7 +21,7 @@ class SetScraper(object):
         'availability': ('availability', None)
     }
 
-    def __init__(self, set_url: str, sleep_time: int = 3):
+    def __init__(self, set_url: str, sleep_time: float = 2):
         self._browser = Browser()
         self._set_url = set_url  # type: str
         self._sleep_time = sleep_time  # type: int

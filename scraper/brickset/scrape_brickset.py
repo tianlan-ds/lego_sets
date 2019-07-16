@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 
 from scraper.browser_driver import Browser
 from scraper.brickset.set_scraper import SetScraper
-from scraper.scraper_constants import BrickSet
+from scraper.utils import generate_sleep_time
 
 logger = logging.getLogger(__name__)
 
@@ -38,11 +38,16 @@ def scrape_one_page(page_url: str) -> List[Dict[str, Any]]:
     set_info_from_one_page = []
     for href in href_list:
         set_url = start_url + href
-        set_scraper = SetScraper(set_url, sleep_time=BrickSet.SLEEP_TIME)
+
+        # generate a sleep time randomly between MIN_SLEEP_TIME and MAX_SLEEP_TIME
+        sleep_time = generate_sleep_time()
+        set_scraper = SetScraper(set_url, sleep_time=sleep_time)
+
         set_info = set_scraper.set_data
         set_number = set_info['set_number']
         set_name = set_info['set_name']
         logger.info('done scraping set {} {}'.format(set_number, set_name))
+
         # if the set name has {} in it, it means the set is just a place holder and it is not released yet. Then log
         # this information and skip saving the data
         if '{' in set_name and '}' in set_name:
@@ -72,6 +77,7 @@ def scrape_one_theme(theme_name: str) -> List[Dict[str, Any]]:
             all_set_data.extend(set_data_from_one_page)
             page_num += 1
         else:
+            logger.info('nothing found on page {}, url: {}'.format(str(page_num), page_url))
             break
 
     logger.info('done scraping theme {}'.format(theme_name))
